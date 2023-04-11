@@ -62,7 +62,6 @@ void handle_experiment(ArgumentList& args, pdr::Logger& log);
 void show_files(std::ostream& os, std::map<std::string, fs::path> paths);
 std::ostream& operator<<(std::ostream& o, std::exception const& e);
 
-#warning dont cares (?) in trace for non-tseytin. dont always make sense? mainly in high constraints
 int main(int argc, char* argv[])
 {
   ArgumentList args(argc, argv);
@@ -75,9 +74,13 @@ int main(int argc, char* argv[])
   args.show_header(std::cerr);
   args.folders.show(std::cerr);
 
-  pdr::Logger logger = pdr::Logger(args.folders.file_in_analysis("log"),
-      args.out, args.verbosity,
-      pdr::Statistics(args.folders.file_in_analysis("stats")));
+  pdr::Logger logger =
+      args.out
+          ? pdr::Logger(args.folders.file_in_analysis("log"), args.out.value(),
+                args.verbosity,
+                pdr::Statistics(args.folders.file_in_analysis("stats")))
+          : pdr::Logger(args.folders.file_in_analysis("log"), args.verbosity,
+                pdr::Statistics(args.folders.file_in_analysis("stats")));
 
   if (args.experiment)
   {
@@ -232,8 +235,7 @@ void handle_ipdr(ArgumentList& args, pdr::Context context, pdr::Logger& log)
       visitor{
           [&](test::z3PebblingIPDR& a) -> ResultVariant
           { return a.control_run(ipdr.type); },
-          [&](pebbling::IPDR& a) -> ResultVariant
-          { return a.run(ipdr.type); },
+          [&](pebbling::IPDR& a) -> ResultVariant { return a.run(ipdr.type); },
           [&](peterson::IPDR& a) -> ResultVariant
           { return a.run(ipdr.type, {}); },
       },

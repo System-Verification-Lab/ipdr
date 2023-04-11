@@ -65,7 +65,7 @@ namespace pdr
       }
     }
 
-    // MYLOG_INFO(logger, "\nStart iteration");
+    MYLOG_INFO(logger, "Start iteration");
     logger.indent++;
     if (PdrResult it_res = iterate())
     {

@@ -22,18 +22,19 @@ namespace pdr
 
   void PDR::log_start() const
   {
-    std::cerr << format("Start PDR at    {}", time_now()) << std::endl;
     MYLOG_INFO(logger, "");
-    MYLOG_INFO(logger, "PDR start ({}):", ts.constraint_str());
+    MYLOG_INFO(logger, "{}{}{}", SEP3, SEP3, SEP3);
+    MYLOG_INFO(logger, "Start PDR at    {}", time_now());
+    MYLOG_INFO(logger, "Constraint: ({}):", ts.constraint_str());
     MYLOG_INFO(logger, "");
   }
 
   void PDR::log_iteration()
   {
     MYLOG_INFO(logger, "");
-    MYLOG_INFO(logger, SEP3);
+    MYLOG_INFO(logger, SEP2);
     MYLOG_INFO(logger, "iterate frame {}", frames.frontier());
-    MYLOG_INFO(logger, SEP3);
+    MYLOG_INFO(logger, SEP2);
   }
 
   void PDR::log_cti(const std::vector<z3::expr>& cti, unsigned level)
@@ -104,8 +105,7 @@ namespace pdr
 
   void PDR::log_pdr_finish(PdrResult const& r, double final_time)
   {
-    std::cerr << format("PDR finished at {}", time_now()) << "--------"
-              << std::endl;
+    MYLOG_DEBUG_SHOW(logger, "PDR finished at {}\n", time_now());     
     MYLOG_INFO(logger, format("Total elapsed time {}", final_time));
     if (r)
     {

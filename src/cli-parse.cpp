@@ -637,6 +637,7 @@ namespace my::cli
       verbosity = OutLvl::whisper;
     else if (clresult.count(s_silent))
       verbosity = OutLvl::silent;
+    dbg(verbosity);
   }
 
   void ArgumentList::parse_context(cxxopts::ParseResult const& clresult)
