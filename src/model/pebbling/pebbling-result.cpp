@@ -112,7 +112,7 @@ namespace pdr::pebbling
     }
     else
     {
-      assert(tactic == Tactic::constrain &&
+      assert(tactic != Tactic::relax &&
              total.strategy->n_marked == pebbles_final);
       // the maximal invariant did not need to be considered and added
       inv_constr = "strategy uses minimal";
